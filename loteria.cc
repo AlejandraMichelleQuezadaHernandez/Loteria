@@ -1,4 +1,3 @@
-#include <cmath>
 #include <ctime>
 #include <iostream>
 using namespace std;
@@ -42,7 +41,10 @@ int main() {
         cout << "4-Se le mostrar la probabilidad de ganar a medida se ingresan "
                 "los numeros."
              << endl;
-        cout << "5-Para ganar, debera adivinar tres numeros en toda la matriz."
+        cout << "5-Tambien ganara cierta cantidad de dinero si adivina el "
+                "numero e ira incrementando en $25."
+             << endl;
+        cout << "6-Para ganar, debera adivinar tres numeros en toda la matriz."
              << endl;
         break;
       case 2:
@@ -87,7 +89,7 @@ void DibujoMatriz() {
   int numarre[9];
   int cont = 0;
   int numgenerado = 0;
-  bool datos = true;
+  bool datos_repetidos = true;
   bool num_repetido = false;
 
   numgenerado = rand() % 25 + 1;
@@ -98,21 +100,21 @@ void DibujoMatriz() {
     if ((cont == 0) & (numgenerado != numarre[cont])) {
       cont = cont + 1;
       numarre[cont] = numgenerado;
-      datos = false;
+      datos_repetidos = false;
     } else {
-      datos = false;
+      datos_repetidos = false;
       for (int i = 0; i <= cont; i++) {
         if (numarre[i] == numgenerado) {
-          datos = true;
+          datos_repetidos = true;
         }
       }
-      if (datos == false) {
+      if (datos_repetidos == false) {
         cont = cont + 1;
         numarre[cont] = numgenerado;
-        datos = false;
+        datos_repetidos = false;
       }
     }
-  } while ((datos) || (cont < 8));
+  } while ((datos_repetidos = false) || (cont < 8));
 
   cont = 0;
   for (int i = 0; i < 3; i++) {
@@ -200,7 +202,15 @@ void DibujoMatriz() {
 
     intentos++;
   } while (intentos < 3);
-
+    if (adivino == 3)
+    {
+        cout << "Felicidades, adivinaste el numero en 3 intentos" << endl;
+    }else{
+        cout <<"Perdiste :(, intentalo de nuevo."<<endl;
+    }
+    
+    
+    
   cout << endl;
   cout << "Loteria completa: " << endl;
   for (int i = 0; i < 3; i++) {
@@ -226,7 +236,7 @@ double Factorial(int x) {
 double CalcularProbabilidad(int &adivino) {
   double probabilidad_total = 0;
   double multiplicacion = 0;
-  // Comprobación para evitar división por cero
+
   double denominador1 = Factorial(25) / (Factorial(3) * Factorial(25 - 3));
   if (denominador1 == 0) {
     cout << "Error: Denominador es cero, no se puede calcular la probabilidad."
